@@ -19,7 +19,7 @@ command /fixvote:
 		
 command /ownvote [<text>]:
 	trigger:
-		if {noo3.core.vote.own} is true
+		if {noo3.core.vote.own} is true:
 			if player has permission "noo3.vote.own":
 				if arg 1 is set:
 					send "&4[&bVote&4]&f Gracz &6%name of player% &frozpoczal&b wlasne &fglosowanie!" to all players
