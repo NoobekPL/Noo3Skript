@@ -208,8 +208,9 @@ command /vote [<text>]:
 				
 				
 				
-					if {noo3.vote.chatclear} is true:
-						send "&aChatClear &7or &aCC" to player
+				
+				if {noo3.vote.chatclear} is true:
+					send "&aChatClear &7or &aCC" to player
 		else:
 			send "&4[&bVote&4]&f Nie posiadasz skryptu Noo3Core albo jest on za stary" to player
 
