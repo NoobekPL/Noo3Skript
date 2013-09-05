@@ -1,0 +1,61 @@
+#-------------#
+#--ChatClear--#
+#----v 1.3----#
+#-By NoobekPL-#
+#-------------#
+
+on script load:
+	set {noo3.vote.chatclear} to true
+
+command /chat [<text>]:
+	aliases: c, cc, chatclear
+	trigger:
+		if arg 1 is not set:
+			if {noo3.core.chatclear} is true:
+				send "&4[&bChatClear&4] &fUsage: /chat help" to player
+			else:
+				send "Nie posiadasz skryptu Noo3Core albo jest on za stary"
+		if arg 1 is set:
+			if {noo3.core.chatclear} is true:
+				if arg 1 is "clear" or "c":
+					if player has permission "noo3.chatclear":
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send "            &4[&bChatClear&4] &fChat cleared by: &6%name of player%" to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+						send " " to all players
+					else:
+						send "&4[&bChatClear&4] &cNie posiadasz odpowiednich uprawnien!"
+				if arg 1 is "reload":
+					make player execute command "/skript reload noo3chatclear"
+				if arg 1 is "info":
+					send "&7-------&4[&bChatClear&4]&7-------" to player
+					send "&fAuthor: &6NoobekPL" to player
+					send "&fVersion: &61.3"
+				if arg 1 is "help" or "h":
+					send "&7-------&4[&bChatClear&4]&7-------" to player
+					send "&a/cc info &7Basic informations" to player
+					send "&a/cc clear &7or &a/ccc &7Clears chat" to player
+					send "&a/cc reload &7Reloads script" to player
+			else:
+				send "Nie posiadasz skryptu Noo3Core albo jest on za stary"
+command /ccc:
+	trigger:
+		make player execute command "/cc c"
