@@ -1,0 +1,11 @@
+#--------------#
+#---Noo3Core---#
+#-----v1.3-----#
+#-By NoobekPL--#
+#--------------#
+
+on script load:
+	set {noo3.core.chatclear} to true
+	set {noo3.core.vote} to true
+	set {noo3.core.vote.own} to true
+	set {noo3.core.vote.fix} to true
