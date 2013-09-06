@@ -1,6 +1,6 @@
 #-------------#
 #-----Say-----#
-#----v 1.0----#
+#----v 1.1----#
 #-By NoobekPL-#
 #-------------#
 
@@ -8,10 +8,14 @@ options:
 	tagnoo3: &4[&bNoo3Core&4]
 	tagsay: &4[&bSay&4]
 	author: NoobekPL
-	version: 1.0
+	version: 1.1
 
 on script load:
 	set {noo3.say.check} to true
+	if {noo3.say} is set:
+		stop
+	if {noo3.say} is not set:
+		set {noo3.say} to "&c[Konsola]&a"
 	
 command /sayformat [<text>]:
 	trigger:
