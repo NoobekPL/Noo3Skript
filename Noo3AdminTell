@@ -1,0 +1,65 @@
+#---------------#
+#-Noo3AdminTell-#
+#-----v1.1------#
+#--By NoobekPL--#
+#---------------#
+
+options:
+	version: 1.1
+	author: NoobekPL
+	tagatell: &4[&bAdminTell&4]
+	tagnoo3: &4[&bNoo3Core&4]
+
+on script load:
+	set {noo3.atell.check} to true
+	
+on join:
+	if player has permission "noo3.atell":
+		wait 5 seconds
+		send "{@tagatell}&fMasz &6%{noo3.new.atell}% &fnowych wiadomosci" to player
+	
+command /telladmin [<text>]:
+	aliases: atell, admintell, tella
+	trigger:
+		if {noo3.core.atell} is true:
+			if arg 1 is set:
+				send "{@tagatell} &aWyslales wiadomosc do &6Adminow" to player
+				add arg 1 to {noo3.admintell::*}
+				add 1 to {noo3.new.atell}
+				send "{@tagatell}&fMasz &6%{noo3.new.atell}% &fnowych wiadomosci" to {noo3.admins::*}
+		else:
+			send "{@tagnoo3}Nie posiadasz skryptu Noo3Core albo jest on za stary"
+			if {noo3.chatlog.check} is true:
+				send "&cSprawdz plik &4noo3errors.log" to player
+				log "//----Noo3AdminTell----//" to "noo3errors.log"
+				log "//----Wersja: {@version}----//" to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "Nie posiadasz skryptu Noo3Core albo jest on za stary!                //Mozesz go znalesc tu: https://github.com/NoobekPL/Noo3Skript/blob/master/Noo3Core" to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "//----Noo3AdminTell----//" to "noo3errors.log"
+
+				
+command /adminmail:
+	aliases: amail, am
+	trigger:
+		if {noo3.core.atell} is true:
+			if player has permission "noo3.atell":
+				send "{@tagatell} &fWiadomosci" to player
+				send "%{noo3.admintell::*}%" to player
+				set {noo3.new.atell} to 0
+				wait 1 tick
+				clear {noo3.admintell::*}
+		else:
+			send "{@tagnoo3}Nie posiadasz skryptu Noo3Core albo jest on za stary"
+			if {noo3.chatlog.check} is true:
+				send "&cSprawdz plik &4noo3errors.log" to player
+				log "//----Noo3AdminTell----//" to "noo3errors.log"
+				log "//----Wersja: {@version}----//" to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "Nie posiadasz skryptu Noo3Core albo jest on za stary!                //Mozesz go znalesc tu: https://github.com/NoobekPL/Noo3Skript/blob/master/Noo3Core" to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "//----Noo3AdminTell----//" to "noo3errors.log"
