@@ -8,7 +8,7 @@ options:
 	tagnoo3: &4[&bNoo3Core&4]
 	tagsay: &4[&bSay&4]
 	author: NoobekPL
-	version: 1.1
+	version: 1.2
 
 on script load:
 	set {noo3.say.check} to true
