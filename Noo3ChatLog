@@ -1,11 +1,11 @@
 #-------------#
 #---ChatLog---#
-#----v 1.7----#
+#----v 1.8----#
 #-By NoobekPL-#
 #-------------#
 
 options:
-	version: 1.7
+	version: 1.8
 	author: NoobekPL
 	taglog: &4[&bChatLog&4]
 
@@ -28,9 +28,9 @@ on chat:
 command /chatlog [<text>]:
 	trigger:
 		if {noo3.core.log} is true:
-			if player has permission "noo3.chat.log":
-				if arg 1 is set:
-					if arg 1 is "on":
+			if arg 1 is set:
+				if arg 1 is "on":
+					if player has permission "noo3.chatlog":
 						send "{@taglog} &aWlaczyles &fzapisywanie wiadomosci w &6logu" to player
 						set {noo3.log.chat} to true
 						log "    " to "czat.log"
@@ -38,7 +38,10 @@ command /chatlog [<text>]:
 						log "%executor% Wlaczyl zapisywanie wiadomosci" to "czat.log"
 						log "    " to "czat.log"
 						log "    " to "czat.log"
-					if arg 1 is "off":
+					else:
+						send "{@taglog} &cNie posiadasz odpowiednich uprawnien!" to player
+				if arg 1 is "off":
+					if player has permission "noo3.chatlog":
 						send "{@taglog} &cWylaczyles &fzapisywanie wiadomosci w &6logu" to player
 						set {noo3.log.chat} to false
 						log "    " to "czat.log"
@@ -46,24 +49,26 @@ command /chatlog [<text>]:
 						log "%executor% Wylaczyl zapisywanie wiadomosci" to "czat.log"
 						log "    " to "czat.log"
 						log "    " to "czat.log"
-					if arg 1 is "reload":
+					else:
+						send "{@taglog} &cNie posiadasz odpowiednich uprawnien!" to player
+				if arg 1 is "reload":
+					if player has permission "noo3.chatlog":
 						make player execute command "/skript reload noo3chatlog"
-					
-					if arg 1 is "info":
-						send "&7-------{@taglog}&7-------" to player
-						send "&fAuthor: &6{@author}" to player
-						send "&fVersion: &6{@version}"
+				
+				if arg 1 is "info":
+					send "&7-------{@taglog}&7-------" to player
+					send "&fAuthor: &6{@author}" to player
+					send "&fVersion: &6{@version}"
 						
-					if arg 1 is "help" or "h":
-						send "&7-------{@taglog}&7-------" to player
-						send "&a/chatlog on &7Wlacza zapisywanie czatu w pliku 'czat.log'" to player
-						send "&a/czatlog off &7Wlyacza zapisywanie czatu w pliku" to player
-						send "&a/czatlog info &7Podstawowe informacje" to player
-						send "&a/czatlog reload &7Przeladowuje informacje" to player
-				else:
-					send "{@taglog} &fUzyj &a/chatlog help" to player
+				if arg 1 is "help" or "h":
+					send "&7-------{@taglog}&7-------" to player
+					send "&a/chatlog on &7Wlacza zapisywanie czatu w pliku 'czat.log'" to player
+					send "&a/czatlog off &7Wlyacza zapisywanie czatu w pliku" to player
+					send "&a/czatlog info &7Podstawowe informacje" to player
+					send "&a/czatlog reload &7Przeladowuje informacje" to player
 			else:
-				send "{@taglog} &cNie posiadasz odpowiednich uprawnien!" to player
+				send "{@taglog} &fUzyj &a/chatlog help" to player
+			
 		else:
 			send "Nie posiadasz skryptu Noo3Core albo jest on za stary!" to player
 			log "//----Noo3ChatLog----//" to "noo3errors.log"
