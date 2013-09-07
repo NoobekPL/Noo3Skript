@@ -18,7 +18,7 @@ on script load:
 
 command /ownvote [<text>]:
 	trigger:
-		if {noo3.core.vote.own} is true:
+		if {noo3.vote.own} is true:
 			if player has permission "noo3.vote.own":
 				if arg 1 is set:
 					set {vote.%name of player%} to true
@@ -197,8 +197,9 @@ command /vote [<text>]:
 						send "{@tagvote}&cNie ma zadnego glosowania" to player
 						
 			if arg 1 is "reload":
-				make player execute command "/skript reload noo3vote"
-				
+				if player has permission "noo3.vote":
+					make player execute command "/skript reload noo3vote"
+					
 			if arg 1 is "info":
 				send "&7-------{@tagvote}&7-------" to player
 				send "&fAuthor: &6{@author}" to player
