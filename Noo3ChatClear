@@ -84,6 +84,8 @@ command /chat [<text>]:
 					else:
 						send "{@tagclear} &cNie posiadasz odpowiednich uprawnien!"
 				if arg 1 is "reload":
+					if player has permission "noo3.chatclear":
+					make player execute command "/skript reload noo3chatclear"
 				if arg 1 is "info":
 					send "&7-------{@tagclear}&7-------" to player
 					send "&fAuthor: &6{@author}" to player
