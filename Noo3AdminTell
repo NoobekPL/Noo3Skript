@@ -26,7 +26,8 @@ command /telladmin [<text>]:
 				send "{@tagatell} &aWyslales wiadomosc do &6Adminow" to player
 				add arg 1 to {noo3.admintell::*}
 				add 1 to {noo3.new.atell}
-				send "{@tagatell}&fMasz &6%{noo3.new.atell}% &fnowych wiadomosci" to {noo3.admins::*}
+				loop {noo3.admins::*}:
+					send "{@tagatell}&fMasz &6%{noo3.new.atell}% &fnowych wiadomosci" to loop-value
 		else:
 			send "{@tagnoo3}Nie posiadasz skryptu Noo3Core albo jest on za stary"
 			if {noo3.chatlog.check} is true:
