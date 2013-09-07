@@ -1,13 +1,13 @@
 #--------------#
 #---Noo3Core---#
-#-----v2.0-----#
+#-----v2.1-----#
 #-By NoobekPL--#
 #--------------#
 
 options:
-	version: 2.0
+	version: 2.1
 	tagnoo3: &4[&bNoo3Core&4]
-	author: NoobekPL
+	author: NoobekPL & Dzikoysk
 
 on script load:
 	set {noo3.core.log} to true
@@ -40,20 +40,21 @@ on chat:
 command /admins:
 	trigger:
 		send "{@tagnoo3} &6Admini: &a%{noo3.admins::*}%" to player
-command /addadmin [<text>]:
+		
+command /addadmin <player>:
 	aliases: aa, adminadd
 	trigger:
 		if player has permission "noo3.core":
 			if arg 1 is set:
-				add arg 1 to {noo3.admins::*}
+				add arg player to {noo3.admins::*}
 				send "&aDodales &f%arg 1%"
 
-command /removeadmin [<text>]:
+command /removeadmin <player>:
 	aliases: ra, adminremove
 	trigger:
 		if player has permission "noo3.core":
 			if arg 1 is set:
-				remove arg 1 from {noo3.admins::*}
+				remove arg player from {noo3.admins::*}
 				send "&cUsunoles &f%arg 1%"
 command /fixvote:
 	trigger:
