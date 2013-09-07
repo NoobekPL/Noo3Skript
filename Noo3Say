@@ -1,6 +1,6 @@
 #-------------#
 #-----Say-----#
-#----v 1.1----#
+#----v 1.2----#
 #-By NoobekPL-#
 #-------------#
 
@@ -22,7 +22,7 @@ command /sayformat [<text>]:
 		if {noo3.core.say} is true:
 			if player has permission "noo3.say":
 				if arg 1 is set:
-					set arg 1 to {noo3.say}
+					set {noo3.say} to arg 1
 				if arg 1 is not set:
 					send "{@tagsay}  &fUzyj  np:  &a& a[Konsola]&b& b" to player
 			else:
