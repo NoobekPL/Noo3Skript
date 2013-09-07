@@ -2,6 +2,8 @@
 #---Noo3Core---#
 #-----v2.1-----#
 #-By NoobekPL--#
+#-----and------#
+#---Dzikoysk---#
 #--------------#
 
 options:
@@ -27,7 +29,7 @@ variables:
 	{vote} = false
 
 on chat:
-	if player has permission "noo3.chat.block":
+	if player has permission "noo3.chatblock":
 		stop
 	else:
 		if {noo3.chat.allowed} is false:
@@ -76,15 +78,16 @@ command /noo3 [<text>]:
 			send "{@tagnoo3}&f Uzyj &a/noo3 help" to player
 		if arg is set:
 			if arg 1 is "reload":
-				if {noo3.chatclear.check} is true:
-					make player execute command "/skript reload noo3chatclear"
-				if {noo3.vote.check} is true:
-					make player execute command "/skript reload noo3vote"
-				if {noo3.atell.check} is true:
-					make player execute command "/skript reload noo3admintell"
-				if {noo3.chatlog.check} is true:
-					make player execute command "/skript reload noo3chatlog"
-				make player execute command "/skript reload noo3core"
+				if player has permission "noo3.core":
+					if {noo3.chatclear.check} is true:
+						make player execute command "/skript reload noo3chatclear"
+					if {noo3.vote.check} is true:
+						make player execute command "/skript reload noo3vote"
+					if {noo3.atell.check} is true:
+						make player execute command "/skript reload noo3admintell"
+					if {noo3.chatlog.check} is true:
+						make player execute command "/skript reload noo3chatlog"
+					make player execute command "/skript reload noo3core"
 			if arg 1 is "info":
 				send "&7-------{@tagnoo3}&7-------" to player
 				send "&fAuthor: &6{@author}" to player
