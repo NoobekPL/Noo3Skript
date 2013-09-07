@@ -1,40 +1,42 @@
 #-------------#
 #----Vote-----#
-#----v 1.4----#
+#----v 1.8----#
 #-By NoobekPL-#
 #-------------#
 
-command /fixvote:
-	trigger:
-		if {noo3.core.vote.fix} is true:
-			if player has permission "noo3.vote.fix":
-				set {vote.%name of player%} to false
-				set {vote.no} to 0
-				set {vote.yes} to 0
-				send "&aNaprawione&7/&cCheatowane!" to player
-			else:
-				send "&4[&bVote&4] &cNie posiadasz odpowiednich uprawnien!" to player
-		else:
-			send "&4[&bVote&4]&f Nie posiadasz skryptu Noo3Core albo jest on za stary" to player
-		
+options:
+	version: 1.8
+	tagownvote: &4[&6Own&bVote&4]
+	tagvote: &4[&bVote&4]
+	tagnoo3: &4[&bNoo3Core&4]
+	tagvotes: &4[&bGlosowania&4]
+	author: NoobekPL
+
+on script load:
+	set {noo3.vote.check} to true
+
+
 command /ownvote [<text>]:
 	trigger:
 		if {noo3.core.vote.own} is true:
 			if player has permission "noo3.vote.own":
 				if arg 1 is set:
-					send "&4[&bVote&4]&f Gracz &6%name of player% &frozpoczal&b wlasne &fglosowanie!" to all players
-					send "&4[&6Own&bVote&4] &c%arg 1%"
-					send "&4[&bVote&4]&f Wpisz &a/vote yes&f lub &a/vote no" to all players
+					set {vote.%name of player%} to true
+					add 1 to {vote.yes}
+					set {vote} to true
+					send "{@tagvote}&f Gracz &6%name of player% &frozpoczal&b wlasne &fglosowanie!" to all players
+					send "{@tagownvote} &c%arg 1%"
+					send "{@tagvote}&f Wpisz &a/vote yes&f lub &a/vote no" to all players
 					wait 25 seconds
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &45" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &45" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &44" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &44" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &43" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &43" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &42" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &42" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &41" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &41" to all players
 					wait 1 second
 					send "&a%{vote.yes}% &fglosow na &aTak &fi &c%{vote.no}% &fna &cNie"
 					wait 1 tick
@@ -43,9 +45,19 @@ command /ownvote [<text>]:
 					set {vote} to false
 					set {vote.%name of player%} to false
 			else:
-				send "&4[&bVote&4] &cNie posiadasz odpowiednich uprawnien!" to player
+				send "{@tagvote} &cNie posiadasz odpowiednich uprawnien!" to player
 		else:
-			send "&4[&bVote&4]&f Nie posiadasz skryptu Noo3Core albo jest on za stary" to player
+			send "{@tagnoo3}&f Nie posiadasz skryptu Noo3Core albo jest on za stary" to player
+			if {noo3.chatlog.check} is true:
+				send "&cSprawdz plik &4noo3errors.log" to player
+				log "//----Noo3Vote----//" to "noo3errors.log"
+				log "//----Wersja: {@version}----//" to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "Nie posiadasz skryptu Noo3Core albo jest on za stary!                //Mozesz go znalesc tu: https://github.com/NoobekPL/Noo3Skript/blob/master/Noo3Core" to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "//----Noo3Vote----//" to "noo3errors.log"
 command /vote [<text>]:
 	aliases: glos, glosuj, zaglosuj
 	trigger:
@@ -57,18 +69,18 @@ command /vote [<text>]:
 					set {vote.%name of player%} to true
 					add 1 to {vote.yes}
 					set {vote} to true
-					send "&4[&bVote&4]&f Gracz &6%name of player% &frozpoczal glosowanie o &aDzien" to all players
-					send "&4[&bVote&4]&f Wpisz &a/vote yes&f lub &a/vote no" to all players
+					send "{@tagvote}&f Gracz &6%name of player% &frozpoczal glosowanie o &aDzien" to all players
+					send "{@tagvote}&f Wpisz &a/vote yes&f lub &a/vote no" to all players
 					wait 25 seconds
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &45" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &45" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &44" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &44" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &43" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &43" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &42" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &42" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &41" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &41" to all players
 					wait 1 second
 					if {vote.yes} is more than {vote.no}:
 						make console execute command "/time set day"
@@ -78,7 +90,7 @@ command /vote [<text>]:
 						set {vote} to false
 						set {vote.%name of player%} to false
 					else:
-						send "&4[&bVote&4]&f &cGlosowanie nie udane!" to all players
+						send "{@tagvote}&f &cGlosowanie nie udane!" to all players
 						wait 1 tick
 						set {vote.no} to 0
 						set {vote.yes} to 0
@@ -93,18 +105,18 @@ command /vote [<text>]:
 						set {vote.%name of player%} to true
 						add 1 to {vote.yes}
 						set {vote} to true
-						send "&4[&bVote&4]&f Gracz &6%name of player% &frozpoczal glosowanie o &aCzyszczenie Chatu" to all players
-						send "&4[&bVote&4]&f Wpisz &a/vote yes&f lub &a/vote no" to all players
+						send "{@tagvote}&f Gracz &6%name of player% &frozpoczal glosowanie o &aCzyszczenie Chatu" to all players
+						send "{@tagvote}&f Wpisz &a/vote yes&f lub &a/vote no" to all players
 						wait 25 seconds
-						send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &45" to all players
+						send "{@tagvote}&f Glosowanie zakonczy sie za: &45" to all players
 						wait 1 second
-						send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &44" to all players
+						send "{@tagvote}&f Glosowanie zakonczy sie za: &44" to all players
 						wait 1 second
-						send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &43" to all players
+						send "{@tagvote}&f Glosowanie zakonczy sie za: &43" to all players
 						wait 1 second
-						send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &42" to all players
+						send "{@tagvote}&f Glosowanie zakonczy sie za: &42" to all players
 						wait 1 second
-						send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &41" to all players
+						send "{@tagvote}&f Glosowanie zakonczy sie za: &41" to all players
 						wait 1 second
 						if {vote.yes} is more than {vote.no}:
 							make player execute command "/ccc"
@@ -114,14 +126,14 @@ command /vote [<text>]:
 							set {vote} to false
 							set {vote.%name of player%} to false
 						else:
-							send "&4[&bVote&4]&f &cGlosowanie nie udane!" to all players
+							send "{@tagvote}&f &cGlosowanie nie udane!" to all players
 							wait 1 tick
 							set {vote.no} to 0
 							set {vote.yes} to 0
 							set {vote} to false
 							set {vote.%name of player%} to false
 				else:
-					send "&4[&bNoo3&6Core&4] &cNie ma skryptu &4Noo3ChatClear"
+					send "{@tagnoo3} &cNie ma skryptu &4Noo3ChatClear"
 					
 			if arg 1 is "noc" or "night":
 				if {vote} is true:
@@ -131,17 +143,17 @@ command /vote [<text>]:
 					add 1 to {vote.yes}
 					set {vote} to true
 					send "&fGracz &6%name of player% &frozpoczal glosowanie o &aNoc" to all players
-					send "&4[&bVote&4]&f Wpisz &a/vote yes&f lub &a/vote no" to all players
+					send "{@tagvote}&f Wpisz &a/vote yes&f lub &a/vote no" to all players
 					wait 25 seconds
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &45" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &45" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &44" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &44" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &43" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &43" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &42" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &42" to all players
 					wait 1 second
-					send "&4[&bVote&4]&f Glosowanie zakonczy sie za: &41" to all players
+					send "{@tagvote}&f Glosowanie zakonczy sie za: &41" to all players
 					wait 1 second
 					if {vote.yes} is more than {vote.no}:
 						make console execute command "/time set night"
@@ -151,7 +163,7 @@ command /vote [<text>]:
 						set {vote} to false
 						set {vote.%name of player%} to false
 					else:
-						send "&4[&bVote&4]&f &cGlosowanie nie udane!" to all players
+						send "{@tagvote}&f &cGlosowanie nie udane!" to all players
 						wait 1 tick
 						set {vote.no} to 0
 						set {vote.yes} to 0
@@ -160,49 +172,49 @@ command /vote [<text>]:
 						
 			if arg 1 is "za" or "yes" or "tak":
 				if {vote.%name of player%} is true:
-					send "&4[&bVote&4]&c Nie mozesz glosowac wiele razy"
+					send "{@tagvote}&c Nie mozesz glosowac wiele razy"
 				else:
 					if {vote} is true:
 						set {vote.%name of player%} to true
 						add 1 to {vote.yes}
-						send "&4[&bVote&4]&f Gracz &6%name of player%&f zaglosowal na &aTak" to all players
+						send "{@tagvote}&f Gracz &6%name of player%&f zaglosowal na &aTak" to all players
 						wait 30 seconds
 						set {vote.%name of player%} to false
 					else:
-						send "&4[&bVote&4]&cNie ma zadnego glosowania" to player
+						send "{@tagvote}&cNie ma zadnego glosowania" to player
 					
 			if arg 1 is "nie" or "not" or "no":
 				if {vote.%name of player%} is true:
-					send "&4[&bVote&4]&c Nie mozesz glosowac wiele razy"
+					send "{@tagvote}&c Nie mozesz glosowac wiele razy"
 				else:
 					if {vote} is true:
 						set {vote.%name of player%} to true
 						add 1 to {vote.no}
-						send "&4[&bVote&4]&f Gracz &6%name of player%&f zaglosowal na &cNie" to all players
+						send "{@tagvote}&f Gracz &6%name of player%&f zaglosowal na &cNie" to all players
 						wait 30 seconds
 						set {vote.%name of player%} to false
 					else:
-						send "&4[&bVote&4]&cNie ma zadnego glosowania" to player
+						send "{@tagvote}&cNie ma zadnego glosowania" to player
 						
 			if arg 1 is "reload":
 				make player execute command "/skript reload noo3vote"
 				
 			if arg 1 is "info":
-				send "&7-------&4[&bVote&4]&7-------" to player
-				send "&fAuthor: &6NoobekPL" to player
-				send "&fVersion: &61.4"
+				send "&7-------{@tagvote}&7-------" to player
+				send "&fAuthor: &6{@author}" to player
+				send "&fVersion: &6{@version}"
 				
 			if arg 1 is "help" or "h":
-				send "&7-------&4[&bVote&4]&7-------" to player
-				send "&a/vote info &7Basic informations" to player
-				send "&a/vote yes &7Agree with vote" to player
-				send "&a/vote no &7Disagree with vote" to player
-				send "&a/ownvote &7Makes your own vote" to player
-				send "&a/vote list &7List of votes" to player
-				send "&a/vote reload &7Reloads script" to player	
+				send "&7-------{@tagvote}&7-------" to player
+				send "&a/vote info &7Podstawowe informacje" to player
+				send "&a/vote yes &7Zgadzasz sie z glosowaniem" to player
+				send "&a/vote no &7Nie zgadzasz sie z glosowaniem" to player
+				send "&a/ownvote &7Tworzy wlasne glosowanie" to player
+				send "&a/vote list &7Lista glosowan" to player
+				send "&a/vote reload &7Przeladowuje skrypt" to player	
 				
 			if arg 1 is "list" or "lista":			
-				send "&7-------&4[&bVotes&4]&7-------" to player
+				send "&7-------{@tagvotes}&7-------" to player
 				send "&aDay &7& &aNight" to player
 				
 				
@@ -212,15 +224,14 @@ command /vote [<text>]:
 				if {noo3.vote.chatclear} is true:
 					send "&aChatClear &7or &aCC" to player
 		else:
-			send "&4[&bVote&4]&f Nie posiadasz skryptu Noo3Core albo jest on za stary" to player
-
-on script load:
-	set {vote.no} to 0
-	set {vote.yes} to 0
-	set {vote} to false
-	
-variables:
-	{vote.no} = 0
-	{vote.yes} = 0
-	{vote} = false
-	{vote.%name of player%} = false
+			send "{@tagnoo3}&f Nie posiadasz skryptu Noo3Core albo jest on za stary" to player
+			if {noo3.chatlog.check} is true:
+				send "&cSprawdz plik &4noo3errors.log" to player
+				log "//----Noo3Vote----//" to "noo3errors.log"
+				log "//----Wersja: {@version}----//" to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "Nie posiadasz skryptu Noo3Core albo jest on za stary!                //Mozesz go znalesc tu: https://github.com/NoobekPL/Noo3Skript/blob/master/Noo3Core" to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "    " to "noo3errors.log"
+				log "//----Noo3Vote----//" to "noo3errors.log"
