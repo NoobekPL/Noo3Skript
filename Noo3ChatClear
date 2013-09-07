@@ -1,11 +1,11 @@
 #-------------#
 #--ChatClear--#
-#----v 1.7----#
+#----v 1.8----#
 #-By NoobekPL-#
 #-------------#
 
 options:
-	version: 1.7
+	version: 1.8
 	tagclear: &4[&bChatClear&4]
 	tagblock: &4[&bChatBlock&4]
 	tagnoo3: &4[&bNoo3Core&4]
@@ -36,12 +36,15 @@ command /chat [<text>]:
 		if arg 1 is set:
 			if {noo3.core.chatclear} is true:
 				if {noo3.core.chatblock} is true:
-					if arg 1 is "on":
-						set {noo3.chat.allowed} to true
-						send "{@tagblock}&f Admin &6%name of player% &aWlaczyl czat!" to all players
-					if arg 1 is "off":
-						set {chat.allowed} to false
-						send "{@tagblock}&f Admin &6%name of player% &cWylaczyl czat!" to all players
+					if player has permission "noo3.chatblock":
+						if arg 1 is "on":
+							set {noo3.chat.allowed} to true
+							send "{@tagblock}&f Admin &6%name of player% &aWlaczyl czat!" to all players
+						if arg 1 is "off":
+							set {chat.allowed} to false
+							send "{@tagblock}&f Admin &6%name of player% &cWylaczyl czat!" to all players
+					else:
+						send "{@tagblock} &cNie posiadasz odpowiednich uprawnien!" to player
 				else:
 					send "{@tagnoo3}Nie posiadasz skryptu Noo3Core albo jest on za stary"
 					if {noo3.chatlog.check} is true:
@@ -81,7 +84,6 @@ command /chat [<text>]:
 					else:
 						send "{@tagclear} &cNie posiadasz odpowiednich uprawnien!"
 				if arg 1 is "reload":
-					make player execute command "/skript reload noo3chatclear"
 				if arg 1 is "info":
 					send "&7-------{@tagclear}&7-------" to player
 					send "&fAuthor: &6{@author}" to player
