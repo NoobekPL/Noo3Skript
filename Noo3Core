@@ -1,11 +1,110 @@
 #--------------#
 #---Noo3Core---#
-#-----v1.3-----#
+#-----v2.0-----#
 #-By NoobekPL--#
 #--------------#
 
+options:
+	version: 2.0
+	tagnoo3: &4[&bNoo3Core&4]
+	author: NoobekPL
+
 on script load:
+	set {noo3.core.log} to true
+	set {noo3.core.atell} to true
 	set {noo3.core.chatclear} to true
 	set {noo3.core.vote} to true
 	set {noo3.core.vote.own} to true
 	set {noo3.core.vote.fix} to true
+	set {noo3.core.chatblock} to true
+	set {vote.no} to 0
+	set {vote.yes} to 0
+	set {vote} to false
+	
+variables:
+	{vote.no} = 0
+	{vote.yes} = 0
+	{vote} = false
+
+on chat:
+	if player has permission "noo3.chat.block":
+		stop
+	else:
+		if {noo3.chat.allowed} is false:
+			cancel event
+			send "<light red>Chat jest obecnie wylaczony!"
+			stop
+		if {chat.allowed} is true:
+			stop
+	
+command /admins:
+	trigger:
+		send "{@tagnoo3} &6Admini: &a%{noo3.admins::*}%" to player
+command /addadmin [<text>]:
+	aliases: aa, adminadd
+	trigger:
+		if player has permission "noo3.core":
+			if arg 1 is set:
+				add arg 1 to {noo3.admins::*}
+				send "&aDodales &f%arg 1%"
+
+command /removeadmin [<text>]:
+	aliases: ra, adminremove
+	trigger:
+		if player has permission "noo3.core":
+			if arg 1 is set:
+				remove arg 1 from {noo3.admins::*}
+				send "&cUsunoles &f%arg 1%"
+command /fixvote:
+	trigger:
+		if {noo3.core.vote.fix} is true:
+			if player has permission "noo3.vote.fix":
+				set {vote.%name of player%} to false
+				set {vote.no} to 0
+				set {vote.yes} to 0
+				send "&aNaprawione&7/&cCheatowane!" to player
+			else:
+				send "&4[&bVote&4] &cNie posiadasz odpowiednich uprawnien!" to player
+		else:
+			send "&4[&bVote&4]&f Nie posiadasz skryptu Noo3Core albo jest on za stary" to player
+	
+command /noo3 [<text>]:
+	aliases: noob, no3, nob
+	trigger:
+		if arg 1 is not set:
+			send "{@tagnoo3}&f Uzyj &a/noo3 help" to player
+		if arg is set:
+			if arg 1 is "reload":
+				if {noo3.chatclear.check} is true:
+					make player execute command "/skript reload noo3chatclear"
+				if {noo3.vote.check} is true:
+					make player execute command "/skript reload noo3vote"
+				if {noo3.atell.check} is true:
+					make player execute command "/skript reload noo3admintell"
+				if {noo3.chatlog.check} is true:
+					make player execute command "/skript reload noo3chatlog"
+				make player execute command "/skript reload noo3core"
+			if arg 1 is "info":
+				send "&7-------{@tagnoo3}&7-------" to player
+				send "&fAuthor: &6{@author}" to player
+				send "&fVersion: &6{@version}"
+			if arg 1 is "help" or "h":
+				send "&7------{@tagnoo3}&7-------" to player
+				send "&a/noo3 info &7Podstawowe Info" to player
+				send "&a/noo3 reload &7Przeladowuje Skrypt" to player
+			if arg 1 is "off":
+				set {noo3.core.log} to false
+				set {noo3.core.atell} to false
+				set {noo3.core.chatclear} to false
+				set {noo3.core.vote} to false
+				set {noo3.core.vote.own} to false
+				set {noo3.core.vote.fix} to false
+				set {noo3.core.chatblock} to false
+			if arg 1 is "on":
+				set {noo3.core.log} to true
+				set {noo3.core.atell} to true
+				set {noo3.core.chatclear} to true
+				set {noo3.core.vote} to true
+				set {noo3.core.vote.own} to true
+				set {noo3.core.vote.fix} to true
+				set {noo3.core.chatblock} to true
