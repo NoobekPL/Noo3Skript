@@ -1,0 +1,206 @@
+#-------------#
+#-----Bank----#
+#----v 1.3----#
+#-By NoobekPL-#
+#-----and-----#
+#---Dzikoysk--#
+#-------------#
+
+options:
+	version: 1.3
+	author: NoobekPL & Dzikoysk
+	tagnoo3: &4[&bNoo3Core&4]
+	tagcash: &4[&bCash&4]
+	tagbank: &4[&bBank&4]
+	
+variables:
+	{noo3.cash.%player%} = 100
+	{noo3.bank.%player%} = 0
+	{noo3.payment.%player%} = 0
+	{noo3.bank.podatek} = false
+
+on script load:
+	if {noo3.podatek} is not set:
+		set {noo3.podatek} to 10
+on sign change:
+	if player has permission "noo3.bank":
+		if line 1 is "noo3bank":
+			if {noo3.core.cash} is true:
+				set line 1 to "&b &lNoo3Bank"
+			else:
+				set line 1 to "&cSprawdz plik"
+				set line 2 to "&4Noo3Errors.log"
+		if line 1 is "noo3cash":
+			if {noo3.core.cash} is true:
+				set line 1 to "&c &lNoo3Cash"
+			else:	
+				set line 1 to "&cSprawdz plik"
+				set line 2 to "&4Noo3Errors.log"
+
+on right click on a sign:
+	if line 1 is "&b &lNoo3Bank":
+		if {noo3.core.cash} is true:
+			if line 2 is "donate" or "wplac" or "saldo" or "payout" or "payin" or "wyplac":
+				if line 3 is set:
+					make player execute command "/bank %line 2% %line 3%"
+				else:
+					make player execute command "/bank %line 2%"
+			else:
+				send "{@tagbank} &cZla konfiguracja"
+		else:
+			set line 1 to "&cSprawdz plik"
+			set line 2 to "&4Noo3Errors.log"
+			
+	else if line 1 is "&c &lNoo3Cash":
+		if {noo3.core.cash} is true:
+			if line 2 is set:
+				make player execute command "/cash %line 2%"
+			else:
+				send "{@tagcash} &cZla konfiguracja"
+		else:
+			set line 1 to "&cSprawdz plik"
+			set line 2 to "&4Noo3Errors.log"
+		
+command /bank [<text>] [<number>]:
+	trigger:
+		if {noo3.core.cash} is true:	
+			if arg 1 is not set:
+				make player execute command "/bank saldo"
+			if arg 1 is "saldo":
+				send "{@tagbank} &fStan twojego konta to: &6%{noo3.bank.%player%}% &fmonet"
+			if arg 1 is "donate" or "wplac" or "payin":
+				if arg 2 is number:
+					set {noo3.payment.%player%} to arg 2
+					if {noo3.cash.%player%} is less than {noo3.payment.%player%}:
+						send "{@tagbank} &cNie posiadasz odpowiednich srodkow"
+					if {noo3.cash.%player%} is more than {noo3.payment.%player%}:
+						remove arg 2 from {noo3.cash.%player%}
+						add arg 2 to {noo3.bank.%player%}
+						send "{@tagbank} &fWplaciles &6%arg 2% &fna konto"
+						if {noo3.bank.podatek} is true:
+							remove {noo3.payment.%player%} from {noo3.bank.%player%}
+							remove {noo3.podatek} from {noo3.payment.%player%}
+							add {noo3.payment.%player%} to {noo3.bank.%player%}
+							send "{@tagbank} &fPodatek: &c-%{noo3.podatek}%"
+					else if {noo3.cash.%player%} is {noo3.payment.%player%}:
+						if {noo3.bank.podatek} is true:
+							remove {noo3.podatek} from {noo3.payment.%player%}
+							add {noo3.payment.%player%} to {noo3.bank.%player%}
+							remove arg 2 from {noo3.cash.%player%}
+							send "{@tagbank} &fWplaciles &6%arg 2% &fna konto"
+							send "{@tagbank} &fPodatek: &c-%{noo3.podatek}%"
+						else:
+							remove arg 2 from {noo3.cash.%player%}
+							add arg 2 to {noo3.bank.%player%}
+							send "{@tagbank} &fWplaciles &6%arg 2% &fna konto"
+						
+			if arg 1 is "payout" or "wyplac":
+				if arg 2 is number:
+					set {noo3.payment.%player%} to arg 2
+					if {noo3.bank.%player%} is less than {noo3.payment.%player%}:
+						send "{@tagbank} &cNie posiadasz odpowiednich srodkow"
+					if {noo3.bank.%player%} is more than {noo3.payment.%player%}:
+						remove arg 2 from {noo3.bank.%player%}
+						add arg 2 to {noo3.cash.%player%}
+						send "{@tagbank} &fWyplaciles &6%arg 2% &fz konta"
+					if {noo3.bank.%player%} is {noo3.payment.%player%}:
+						remove arg 2 from {noo3.bank.%player%}
+						add arg 2 to {noo3.cash.%player%}
+						send "{@tagbank} &fWyplaciles %arg 2% z konta"
+
+		else:
+			send "{@tagnoo3} &cNie posiadasz skryptu Noo3Core albo jest on za stary!" to player
+			log "//----Noo3Cash----//" to "noo3errors.log"
+			log "//----Wersja: {@version}----//" to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "Nie posiadasz skryptu Noo3Core albo jest on za stary!                //Mozesz go znalesc tu: https://github.com/NoobekPL/Noo3Skript/blob/master/Noo3Core" to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "//----Noo3Cash----//" to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			send "&cSprawdz plik &4noo3errors.log" to player					
+command /cash [<text>] [<player>] [<number>]:
+	aliases: kasa, money
+	trigger:
+		if {noo3.core.cash} is true:
+			if arg 1 is not set:
+				make player execute command "/cash saldo"
+			if arg 1 is set:
+				if arg 2 is set:
+					if arg 3 is set:
+						if player has permission "noo3.cash":
+							if arg 1 is "add" or "dodaj":
+								add arg 3 to {noo3.cash.%arg 2%}
+								send "{@tagcash} &fDodales &6%arg 3% &fmonet dla &6%arg 2%"
+							if arg 1 is "remove" or "usun" or "zabierz":
+								remove arg 3 from {noo3.cash.%arg 2%}
+								send "{@tagcash} &fZabrales &6%arg 3% &fmonet dla &6%arg 2%"
+							if arg 1 is "ustaw" or "set":
+								set {noo3.cash.%arg 2%} to arg 3
+								send "{@tagcash} &fUstawiles kase &6%arg 2% &fna &6%arg 3% "
+				else:
+					if arg 1 is "stan" or "saldo":
+						if arg 2 is not set:
+							if arg 3 is not set:
+								send "{@tagcash} &fMasz: &6%{noo3.cash.%player%}% &fmonet w portfelu"
+					if arg 1 is "reload":
+						if arg 2 is not set:
+							if arg 3 is not set:
+								if player has permission "noo3.cash":
+									make player execute command "/skript reload noo3cash"
+							
+					if arg 1 is "info":
+						if arg 2 is not set:
+							if arg 3 is not set:
+								send "&7-------{@tagcash}&7-------" to player
+								send "&fAuthor: &6{@author}" to player
+								send "&fVersion: &6{@version}"
+									
+					if arg 1 is "help" or "h":
+						if arg 2 is not set:
+							if arg 3 is not set:
+								send "&7-------{@tagbank}&7-------" to player
+								send "&a/cash add &7Dodaje kase" to player
+								send "&a/cash remove &7Usuwa kase" to player
+								send "&a/cash reload &7Przeladowuje informacje" to player
+		else:
+			send "{@tagnoo3} &cNie posiadasz skryptu Noo3Core albo jest on za stary!" to player
+			log "//----Noo3Cash----//" to "noo3errors.log"
+			log "//----Wersja: {@version}----//" to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "Nie posiadasz skryptu Noo3Core albo jest on za stary!                //Mozesz go znalesc tu: https://github.com/NoobekPL/Noo3Skript/blob/master/Noo3Core" to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "//----Noo3Cash----//" to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			send "&cSprawdz plik &4noo3errors.log" to player
+			
+command /podatek <text> [<number>]:
+	trigger:
+		if {noo3.core.cash} is true:
+			if player has permission "noo3.bank.podatek":
+				if arg 1 is "false":
+					set {noo3.bank.podatek} to false
+					send "{@tagbank} &fUstawiles &60% &fpodatku"
+					
+				if arg 1 is "ustaw" or "set":
+					if arg 2 is number:
+						set {noo3.podatek} to 0
+						send "{@tagbank} &fUstawiles &6%{noo3.podatek}% &fpodatku"
+						
+				if arg 1 is "check" or "sprawdz":
+					send "{@tagbank} &fJest obecnie &6%{noo3.podatek}% &fpodatku"
+		else:
+			send "{@tagnoo3} &cNie posiadasz skryptu Noo3Core albo jest on za stary!" to player
+			log "//----Noo3Cash----//" to "noo3errors.log"
+			log "//----Wersja: {@version}----//" to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "Nie posiadasz skryptu Noo3Core albo jest on za stary!                //Mozesz go znalesc tu: https://github.com/NoobekPL/Noo3Skript/blob/master/Noo3Core" to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			log "//----Noo3Cash----//" to "noo3errors.log"
+			log "    " to "noo3errors.log"
+			send "&cSprawdz plik &4noo3errors.log" to player
